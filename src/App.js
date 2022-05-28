@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { createContext } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import LoginPage from "./pages/Login";
+import ExamPage from "./pages/Exam";
+import ResultPage from "./pages/Result";
+
+import { exam } from "./data";
+
+export const ExamContext = createContext();
+
+const App = () => {
+	return (
+		<ExamContext.Provider value={exam}>
+			<BrowserRouter>
+				<Routes>
+					<Route exact path="/" element={<Navigate to="/login" />} />
+					<Route exact path="/login" element={<LoginPage />} />
+					<Route exact path="/exam" element={<ExamPage />} />
+					<Route exact path="/result" element={<ResultPage />} />
+					<Route exact path="*" element={<Navigate to="/login" />} />
+				</Routes>
+			</BrowserRouter>
+		</ExamContext.Provider>
+	);
+};
 
 export default App;

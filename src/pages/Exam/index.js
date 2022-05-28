@@ -1,10 +1,12 @@
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import Exam from "../../components/Exam";
 
 import { ExamContext } from "../../App";
 
 const ExamPage = () => {
+	const [questions, setQuestions] = useState(null);
+
 	const exam = useContext(ExamContext);
 
 	const shuffleArray = (array) => {
@@ -15,7 +17,11 @@ const ExamPage = () => {
 		return array;
 	};
 
-	return <Exam questions={shuffleArray(exam.questions)} />;
+	useEffect(() => {
+		setQuestions(exam.questions.map((question) => ({ ...question, answers: shuffleArray(question.answers) })));
+	}, [exam]);
+
+	return questions && <Exam questions={questions} />;
 };
 
 export default ExamPage;
